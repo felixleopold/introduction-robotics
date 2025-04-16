@@ -42,6 +42,7 @@ def follow_line():
     reflection = color_sensor.reflection() # Gets the reflection from the image
     print(reflection)
 
+
     left_motor.run(speed=5) # Runs the left motor at speed=5
     right_motor.run(speed=5) # Runs the right motor at speed=5
 

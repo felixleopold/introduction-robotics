@@ -66,6 +66,21 @@ pip install -r requirements.txt
 pip3 install -r requirements.txt
 ```
 
+# Usage
+
+1. Start `CoppeliaSim`
+
+2.
+```bash
+source venv/bin/activate
+cd StarterFiles/
+
+# for line maze
+python3 lineMaze.py
+
+# for wall e
+python3 wall_e_script.py
+```
 
 # Information & Documents
 

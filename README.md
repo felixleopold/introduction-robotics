@@ -70,7 +70,7 @@ pip3 install -r requirements.txt
 
 1. Start `CoppeliaSim`
 
-2.
+2. Execute the following commands:
 ```bash
 source venv/bin/activate
 cd StarterFiles/

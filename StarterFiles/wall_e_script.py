@@ -38,7 +38,6 @@ if red > 40 and green<23 and blue < 7:
     """It knows it has a red block"""
 
 
-
 # Starts coppeliasim simulation if not done already
 sim.startSimulation()
 
@@ -46,16 +45,42 @@ time.sleep(0.5)
 
 # MAIN CONTROL LOOP
 while True:
+    def charge():
+        """Has to find the charging station first, then has to bring the robot there and wait till battery is 1."""
+        pass
+    #Top image sensor
+    """Has to search for the red or blue bin. Only used for this. We only use top 5 rows for this in the 64x64 matrix. 3rd step in subsumption architecture"""
     top_image_sensor._update_image()
     top_image_sensor.image = top_image_sensor.get_image()[:5,:,:]
     print(f"Red: {top_image_sensor.rgb()[0]}")
     print(f"Green: {top_image_sensor.rgb()[1]}")
     print(f"Blue: {top_image_sensor.rgb()[2]}\n")
-    small_image_sensor._update_image()
-    print(f"Red: {small_image_sensor.rgb()[0]}")
-    print(f"Green: {small_image_sensor.rgb()[1]}")
-    print(f"Blue: {small_image_sensor.rgb()[2]}\n")
-    print(f"Battery: {robot.get_battery()}\n") 
-    left_motor.run(0)
-    right_motor.run(0)
+    
+    #Battery
+    """Indicates when the robot has to charge. 1st step in subsumption architecture"""
+    robot_battery = robot.get_battery()
+    print(f"Battery: {robot_battery}\n")
+    if robot_battery < 0.2:
+        charge() 
+    else:
+        #Small image sensor
+        """Use for finding and signaling when it has a block. Needs to distinguish between green, red and dark red blocks (compressed). 2nd step in subsumption architecture."""
+        small_image_sensor._update_image()
+        red, green, blue = small_image_sensor.rgb()
+        print(f"Red: {red}")
+        print(f"Green: {green}")
+        print(f"Blue: {blue}\n")
+        if red > 40:
+            robot.compress()
+        else:
+            pass
+
+    
+    #Motor
+    """Makes the robot move. Need to implement a random loop so it wanders around when nothing is matched on top. Only wanders when all other layers are not met."""
+    left_motor.run(.5)
+    right_motor.run(.5)
+    
+    #Timer
+    """Used for input delay on the terminal"""
     time.sleep(5)
